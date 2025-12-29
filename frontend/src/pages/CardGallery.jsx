@@ -13,6 +13,8 @@ const CardGallery = () => {
   } = useQuery({
     queryFn: getIDCards,
     queryKey: ["getIDCards"],
+    refetchOnMount: true,
+    refetchOnReconnect: true,
     refetchOnWindowFocus: true,
   });
 
@@ -50,6 +52,18 @@ const CardGallery = () => {
           >
             Retry
           </button>
+        </div>
+      )}
+
+      {idCards?.cards?.length === 0 && (
+        <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+          <p className="text-red-600 font-semibold">No ID Cards Found</p>
+          <Link
+            to={"/create"}
+            className="px-4 py-2 bg-black text-white rounded-md hover:opacity-80"
+          >
+            Create ID Card
+          </Link>
         </div>
       )}
 

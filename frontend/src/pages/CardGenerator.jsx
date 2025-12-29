@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import IDCard from "../components/IDCard";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCardAPI } from "../services/IDCardServices";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CardGenerator = () => {
   const [studentsData, setStudentsData] = useState();
@@ -25,6 +25,9 @@ const CardGenerator = () => {
     }
   };
 
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   // New ID Card Mutation
   const {
     mutateAsync: addIDCardMutate,
@@ -33,6 +36,10 @@ const CardGenerator = () => {
   } = useMutation({
     mutationFn: createCardAPI,
     mutationKey: ["createCard"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getIDCards"] });
+      navigate("/");
+    },
   });
 
   // Form validation schema
