@@ -65,7 +65,7 @@ const IDCard = ({ cardInfo, schoolLogo, studentPhoto }) => {
                 Date of Birth -{" "}
                 <span className="text-green-900">
                   {cardInfo?.dob
-                    ? cardInfo?.dob
+                    ? cardInfo?.dob?.split("T")[0]
                     : new Date().toISOString().split("T")[0]}
                 </span>
               </p>
